@@ -1,7 +1,7 @@
 const { Scenes, Telegraf } = require('telegraf');
 // сессии для mongoose 
 const { session } = require("telegraf-session-mongoose");
-// подключение всех команд для стандартных методов прослушек 
+// подключение всех команд для бота
 const {
     start,
     backMenu,
@@ -15,7 +15,8 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 const stage = new Scenes.Stage([whatWeatherScene])
 
 const setupBot = () => {
-    // подключение сессий с коллекцией в бд и сцен
+    // подключение промежуточных обработчиков (middleware) 
+    // сессий с коллекцией в бд и сцен
     bot.use(session({ collectionName: 'sessions' }));
     bot.use(stage.middleware())
 
@@ -24,7 +25,6 @@ const setupBot = () => {
     // прослушка на сообщение 
     bot.hears('✅ В меню', backMenu)
     bot.hears('🌏 Узнать погоду', startWhatWeather)
-
 
     return bot;
 }

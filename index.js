@@ -10,13 +10,15 @@ const { setupBot } = require('./bot');
 // рекурсивная асинхронная функция, которая подключается к бд и после запускает бота tg 
 (async function () {
     try {
+        // подключение к БД
         await mongoose.connect(process.env.BD_TOKEN, {
             useUnifiedTopology: true,
             useNewUrlParser: true,
             dbName: 'tgBot'
         });
+        // запуск самого бота
         await setupBot().launch();
-        // другая реализация 
+        // другая реализация запуска
         /* 
         const bot = setupBot();
         await bot.launch()

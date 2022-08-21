@@ -2,7 +2,7 @@
 
 const {
     mainMenu
-} = require("../utils/buttons")
+} = require("../utils/buttons");
 
 const start = (ctx) =>
     ctx.reply(`
@@ -34,7 +34,7 @@ const startWhatWeather = ctx => {
     */
     // входим в зарегистрированную в bot.js (15 строка) сцену
     return ctx.scene.enter('weather');
-}
+};
 
 module.exports = {
     start,
