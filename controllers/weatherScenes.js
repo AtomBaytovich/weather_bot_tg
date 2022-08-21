@@ -1,12 +1,19 @@
 const { default: axios } = require('axios');
-const { Telegraf, Scenes } = require('telegraf');
+const { Scenes } = require('telegraf');
 const { backMenu } = require('../controllers/commands');
+const { backButtonMenuAndLocation } = require('../utils/buttons');
 
 // https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,windspeed_10m&current_weather=true&timezone=auto
 const url = `https://api.open-meteo.com/v1/forecast`;
 
-// первый шаг сцены
-let stepOne = Telegraf.on('location', async ctx => {
+// передаём конструктору название сцены и шаги сцен
+const whatWeatherScene = new Scenes.BaseScene('weather');
+
+whatWeatherScene.enter(ctx => ctx.reply('✨ Пришли мне свою геопозицию', {
+    ...backButtonMenuAndLocation
+}));
+
+whatWeatherScene.on('location', async ctx => {
     try {
         const msg = ctx.message;
         if (!msg.location) return ctx.reply('Это не геопозиция!')
@@ -32,19 +39,15 @@ let stepOne = Telegraf.on('location', async ctx => {
         });
         // отвечаем сообщением о погоде
         ctx.reply(`Сейчас у тебя ${data.current_weather.temperature}${data.hourly_units.temperature_2m}\nВетер ${data.current_weather.windspeed} ${data.hourly_units.windspeed_10m}`)
-        // выходим со сцены
-        // return ctx.scene.leave();
     } catch (error) {
         console.log(error)
         ctx.reply('Упс... Произошла какая - то ошибка');
     }
 })
 
-// передаём конструктору название сцены и шаги сцен
-const whatWeatherScene = new Scenes.WizardScene('weather', stepOne)
-
 // вешаем прослушку hears на сцену
 whatWeatherScene.hears('✅ В меню', ctx => {
+    // выходим со сцены
     ctx.scene.leave();
     return backMenu(ctx);
 })
