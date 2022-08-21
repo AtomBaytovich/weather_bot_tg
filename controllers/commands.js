@@ -18,14 +18,15 @@ const start = (ctx) =>
         ...mainMenu
     });
 
-const backMenu = ctx =>
+const backMenu = ctx => {
     ctx.reply(`✅ Ты находишься в меню`, {
         disable_web_page_preview: true,
         parse_mode: 'HTML',
         ...mainMenu
     });
-
+}
 const startWhatWeather = ctx => {
+    // console.log(ctx)
     /*
     1. Бот запрашивает геопозицию человека в ТГ
     2. Человек по кнопке или через вложения отправляет своё местоположение
@@ -36,8 +37,11 @@ const startWhatWeather = ctx => {
     return ctx.scene.enter('weather');
 };
 
+const whatWeatherNotI = ctx => ctx.scene.enter('weatherNotI') 
+
 module.exports = {
     start,
     backMenu,
-    startWhatWeather
+    startWhatWeather,
+    whatWeatherNotI
 }

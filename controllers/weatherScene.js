@@ -1,11 +1,8 @@
-const { default: axios } = require('axios');
 const { Scenes } = require('telegraf');
-const { backMenu } = require('../controllers/commands');
+const { backMenu } = require('./commands');
+const { getWeatherLocationCoord } = require('../services/getWeatherLocation');
 const { backButtonMenuAndLocation } = require('../utils/buttons');
-
-// url api geo service
-// https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,windspeed_10m&current_weather=true&timezone=auto
-const url = `https://api.open-meteo.com/v1/forecast`;
+const { CMD_TEXT } = require('../config/consts');
 
 // передаём конструктору название сцены и шаги сцен
 const whatWeatherScene = new Scenes.BaseScene('weather');
@@ -28,18 +25,7 @@ whatWeatherScene.on('location', async ctx => {
             longitude
         } = msg.location;
 
-        // делаем get запрос с query параметрами и деструктуризируем ответ - data 
-        const {
-            data
-        } = await axios.get(url, {
-            params: {
-                latitude,
-                longitude,
-                'hourly': 'temperature_2m,relativehumidity_2m,windspeed_10m',
-                'current_weather': true,
-                'timezone': 'auto'
-            }
-        });
+        const data = await getWeatherLocationCoord({ latitude, longitude });
         // отвечаем сообщением о погоде
         ctx.reply(`Сейчас у тебя ${data.current_weather.temperature}${data.hourly_units.temperature_2m}\nВетер ${data.current_weather.windspeed} ${data.hourly_units.windspeed_10m}`)
     } catch (error) {
@@ -49,7 +35,7 @@ whatWeatherScene.on('location', async ctx => {
 })
 
 // вешаем текстовую прослушку hears на сцену
-whatWeatherScene.hears('✅ В меню', ctx => {
+whatWeatherScene.hears(CMD_TEXT.menu, ctx => {
     // выходим со сцены
     ctx.scene.leave();
     return backMenu(ctx);
