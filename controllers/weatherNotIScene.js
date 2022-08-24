@@ -2,7 +2,7 @@ const { Telegraf, Scenes } = require('telegraf');
 const { CMD_TEXT } = require('../config/consts');
 const { backMenu } = require('../controllers/commands');
 const {
-    reverseGeocoderLocation,
+    geocoderLocation,
     getWeatherLocationCoord
 } = require('../services/getWeatherLocation');
 const {
@@ -36,7 +36,7 @@ const stepTwo = Telegraf.on('text', async ctx => {
         const msg = ctx.message;
         // console.log(msg)
 
-        const location = await reverseGeocoderLocation(msg.text);
+        const location = await geocoderLocation(msg.text);
         if (!location) return ctx.reply('Упс... Я не могу найти такого места. Попробуй другое!')
         // console.log(location[0])
 

@@ -1,6 +1,6 @@
 {
   "name": "weather_bot_tg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,10 @@
   "homepage": "https://github.com/AtomBaytovich/weather_bot_tg#readme",
   "dependencies": {
     "axios": "^0.27.2",
+    "canvas": "^2.9.3",
+    "chartjs-node-canvas": "^4.1.6",
     "dotenv": "^16.0.1",
+    "moment": "^2.29.4",
     "mongoose": "^6.5.2",
     "telegraf": "^4.8.6",
     "telegraf-session-mongoose": "^2.0.6"

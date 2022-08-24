@@ -21,11 +21,14 @@ const getWeatherLocationCoord = async ({ longitude, latitude }) => {
 
 // стрелочная функция обратного геокодирования адреса
 /*
+    Прямое геокодирование – это задача получения координат географической
+    точки по её адресу, написанному на понятном человеческом языке.
+
     Обратное геокодирование-это процесс преобразования местоположения, 
     описанного географическими координатами (широта, долгота), 
     в удобочитаемый адрес или название места.
 */
-const reverseGeocoderLocation = async (address) => {
+const geocoderLocation = async (address) => {
     // делаем URL валидным
     const url = new URL(`${URL_API_GEOCODER}/${address}`).href;
     const { data } = await axios.get(url, {
@@ -40,5 +43,5 @@ const reverseGeocoderLocation = async (address) => {
 
 module.exports = {
     getWeatherLocationCoord,
-    reverseGeocoderLocation
+    geocoderLocation
 }
