@@ -19,8 +19,17 @@ const backButtonMenuAndLocation =
         Markup.button.text(CMD_TEXT.menu),
     ]).resize()
 
+const startCallbackButton =
+    Markup.inlineKeyboard([
+        Markup.button.callback(
+            'Старт',
+            'test_callback'
+        ),
+    ]).resize()
+
 module.exports = {
     mainMenu,
     backButtonMenu,
-    backButtonMenuAndLocation
+    backButtonMenuAndLocation,
+    startCallbackButton
 }

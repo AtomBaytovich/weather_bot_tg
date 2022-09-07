@@ -9,6 +9,7 @@ const {
     backMenu,
     startWhatWeather,
     whatWeatherNotI,
+    exampleStartCallback,
 } = require('./controllers/commands');
 
 const { whatWeatherNotIScene } = require('./controllers/weatherNotIScene');
@@ -35,6 +36,11 @@ const setupBot = () => {
     bot.hears(CMD_TEXT.menu, backMenu)
     bot.hears(CMD_TEXT.weaterI, startWhatWeather)
     bot.hears(CMD_TEXT.weatherNotI, whatWeatherNotI)
+
+    // пример использования callback button
+    bot.hears('start_scene_callback', exampleStartCallback)
+    // ловим callback и заходим в сцену
+    bot.action('test_callback', whatWeatherNotI)
 
     return bot;
 }

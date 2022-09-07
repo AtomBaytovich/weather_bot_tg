@@ -1,7 +1,8 @@
 // команды для бота 
 
 const {
-    mainMenu
+    mainMenu,
+    startCallbackButton
 } = require("../utils/buttons");
 
 const start = (ctx) =>
@@ -37,11 +38,18 @@ const startWhatWeather = ctx => {
     return ctx.scene.enter('weather');
 };
 
-const whatWeatherNotI = ctx => ctx.scene.enter('weatherNotI') 
+const whatWeatherNotI = ctx => ctx.scene.enter('weatherNotI');
+
+const exampleStartCallback = (ctx) =>
+    ctx.reply('😳 Прислали сообщение с inline-keyboard и callback button.\nОна ведёт на сцену "weatherNotI"', {
+        ...startCallbackButton
+    })
+
 
 module.exports = {
     start,
     backMenu,
     startWhatWeather,
-    whatWeatherNotI
+    whatWeatherNotI,
+    exampleStartCallback
 }
